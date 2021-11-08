@@ -16,13 +16,19 @@ export class Form extends React.Component {
 
   handleSubmitForm = (e) => {
     e.preventDefault(); //отменить действие по умолчанию, чтобы страница не перезагружалась
+
     const { title, about } = this.state;
-    if (title && about) {
+    if (title && about) { //валидация - поля заполнены?
+      alert(`Создаем новую статью. Здесь нужно отправлять форму на сервер, но мы просто добавим ее в state компонента Faq.\n
+      ${title}\n${about}` )
+
       this.props.addArticle({ title, about }); //запустим callback, переданный из Faq
       this.setState({
         title: '',
         about: '',
       })
+    } else {
+      alert("Введите заголовок и текст новой статьи");
     }
   };
 
