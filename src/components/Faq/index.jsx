@@ -1,4 +1,4 @@
-import React from "react";
+import React, {useState} from "react";
 import ItemArticle from "./ItemArticle";
 import Form from "./Form";
 
@@ -42,44 +42,47 @@ const defaultState = [
   }
 ];
 
-export class Faq extends React.Component {
-  state = {
-    articles: defaultState,
-    currentArticleId: null
-  };
+function Faq (props) {
+  // state = {
+  //   articles: defaultState,
+  //   currentArticleId: null
+  // };
+
+  const [articles, setArticles] = useState(defaultState);
+  const [currentArticleId, setStateCurrentArticleId] = useState('');
 
   //эту функцию буду передавать через props компоненту ItemArticle
-  setCurrentArticleId = (props) => {
+  const setCurrentArticleId = (props) => {
     console.log(
       "Переданную функцию вызвал объект ItemArticle с id = " + props.articleId
     );
-    this.setState({ currentArticleId: props.articleId });
+    setStateCurrentArticleId(props.articleId);
   };
 
   //этот функцию надо передать в компонент Form, чтобы оттуда запускать с новыми параметрами title и about
-  addArticle = ({ title, about }) => {
+  const addArticle = ({ title, about }) => {
     if (title && about) {
-      const id = this.state.articles.length + 1; //id новой статьи
-      this.setState({articles: this.state.articles.concat([{id, title, about}]) });
-      //this.setState({articles: [...this.state.articles, {title, about}]})
+      const id = articles.length + 1; //id новой статьи
+      setArticles(prev => [...prev, {title, about, id}] );
+      // setArticles((prev) => {
+      //   return [...prev, {title, about}] }
+      // );
     }
   }
 
-  render() {
-    return (
-      <div>
-        {this.state.articles.map((article) => (
-          <ItemArticle 
-            key={article.id} 
-            article={article} 
-            currentArticleId={this.state.currentArticleId} //это свойство прилетит абсолютно всем объектам ItemArticle
-            setCurrentArticleId={this.setCurrentArticleId} //тело функции для запуска в объекте ItemArticle, на котором будет клик    
-          />
-        ))}
-        <Form addArticle={ this.addArticle } />
-      </div>
-    );
-  }
+  return (
+    <div>
+      {articles.map((article) => (
+        <ItemArticle 
+          key={article.id} 
+          article={article} 
+          currentArticleId={currentArticleId} //это свойство прилетит абсолютно всем объектам ItemArticle
+          setCurrentArticleId={setCurrentArticleId} //тело функции для запуска в объекте ItemArticle, на котором будет клик    
+        />
+      ))}
+      <Form addArticle={ addArticle } />
+    </div>
+  );
 }
 
 export default Faq;
