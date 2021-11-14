@@ -43,13 +43,11 @@ const defaultState = [
 ];
 
 function Faq (props) {
-  // state = {
-  //   articles: defaultState,
-  //   currentArticleId: null
-  // };
 
   const [articles, setArticles] = useState(defaultState);
   const [currentArticleId, setStateCurrentArticleId] = useState('');
+
+  const ArticleContext = React.createContext();
 
   //эту функцию буду передавать через props компоненту ItemArticle
   const setCurrentArticleId = (props) => {
@@ -71,6 +69,7 @@ function Faq (props) {
   }
 
   return (
+    <ArticleContext.Provider>
     <div>
       {articles.map((article) => (
         <ItemArticle 
@@ -82,6 +81,7 @@ function Faq (props) {
       ))}
       <Form addArticle={ addArticle } />
     </div>
+    </ArticleContext.Provider>
   );
 }
 

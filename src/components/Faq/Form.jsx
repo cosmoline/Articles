@@ -1,5 +1,5 @@
 
-import React, {useState} from "react";
+import React, {useState, useEffect} from "react";
 import styles from './faq.module.scss'
 
 function Form (props) {
@@ -8,6 +8,11 @@ function Form (props) {
   const [about, setAbout] = useState('');
   
   //const [values, setValues] = useState({});
+
+  useEffect(() => {
+    // Обновляем заголовок документа, используя API браузера
+    document.querySelector("legend").innerText = 'Введите параметры новой статьи';
+  });
 
   const handleSubmitForm = (e) => {
     e.preventDefault(); //отменить действие по умолчанию, чтобы страница не перезагружалась

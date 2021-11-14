@@ -9,7 +9,7 @@ ReactDOM.render(
   <StrictMode>
     <Layout>
       <div className="container">
-        <Faq />
+         <Faq />  
       </div>
     </Layout>
   </StrictMode>,
