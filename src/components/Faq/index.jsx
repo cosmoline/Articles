@@ -1,6 +1,6 @@
 import React, {useState} from "react";
-import ItemArticle from "./ItemArticle";
 import Form from "./Form";
+import Articles from "./Articles";
 
 const defaultState = [
   {
@@ -42,44 +42,16 @@ const defaultState = [
   }
 ];
 
+export const ArticleContext = React.createContext();
+
 function Faq (props) {
 
   const [articles, setArticles] = useState(defaultState);
-  const [currentArticleId, setStateCurrentArticleId] = useState('');
-
-  const ArticleContext = React.createContext();
-
-  //эту функцию буду передавать через props компоненту ItemArticle
-  const setCurrentArticleId = (props) => {
-    console.log(
-      "Переданную функцию вызвал объект ItemArticle с id = " + props.articleId
-    );
-    setStateCurrentArticleId(props.articleId);
-  };
-
-  //этот функцию надо передать в компонент Form, чтобы оттуда запускать с новыми параметрами title и about
-  const addArticle = ({ title, about }) => {
-    if (title && about) {
-      const id = articles.length + 1; //id новой статьи
-      setArticles(prev => [...prev, {title, about, id}] );
-      // setArticles((prev) => {
-      //   return [...prev, {title, about}] }
-      // );
-    }
-  }
-
   return (
-    <ArticleContext.Provider>
+    <ArticleContext.Provider value={[articles, setArticles]}>
     <div>
-      {articles.map((article) => (
-        <ItemArticle 
-          key={article.id} 
-          article={article} 
-          currentArticleId={currentArticleId} //это свойство прилетит абсолютно всем объектам ItemArticle
-          setCurrentArticleId={setCurrentArticleId} //тело функции для запуска в объекте ItemArticle, на котором будет клик    
-        />
-      ))}
-      <Form addArticle={ addArticle } />
+      <Articles/>
+      <Form />
     </div>
     </ArticleContext.Provider>
   );
